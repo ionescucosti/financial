@@ -1,7 +1,6 @@
-# Function to read the input file and perform calculations
 from calculation import calculate_statistics
 
-
+# Function to read the input file and perform calculations
 def process_input_file(file_path):
     try:
         with open(file_path, "r") as file_data:

@@ -13,4 +13,3 @@ def process_input_file(file_path):
 
 if __name__ == '__main__':
     print(process_input_file("example_input.txt"))
-    # process_input_file("dummy_path.txt")

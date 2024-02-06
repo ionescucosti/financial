@@ -6,9 +6,9 @@ from database import get_instrument_modifier
 
 # Function to calculate statistics based on instrument type
 def calculate_statistics(file):
-    # print(type(file), file)
     results = {}
     instruments_data = {}
+    
     for line in file.split():
         # Parse the line from the file
         instrument_name, date, value = line.strip().split(",")
@@ -21,7 +21,7 @@ def calculate_statistics(file):
         value = value * modifier
 
         # INSTRUMENT1 update sum and total, at the end we can calculate mean
-        if instrument_name == "INSTRUMENT1":
+        if instrument_name == 'INSTRUMENT1':
             if instrument_name not in instruments_data.keys():
                 instruments_data[instrument_name] = {'sum': value, 'total': 1}
             else:
@@ -29,7 +29,7 @@ def calculate_statistics(file):
                 instruments_data[instrument_name]['total'] += 1
 
         # INSTRUMENT2 update sum and total for Nov-2014 dates, at the end we can calculate mean
-        elif instrument_name == "INSTRUMENT2":
+        elif instrument_name == 'INSTRUMENT2':
             if date.endswith("-Nov-2014"):
                 if instrument_name not in instruments_data.keys():
                     instruments_data[instrument_name] = {'sum': value, 'total': 1}
@@ -37,8 +37,8 @@ def calculate_statistics(file):
                     instruments_data[instrument_name]['sum'] += value
                     instruments_data[instrument_name]['total'] += 1
 
-        # INSTRUMENT3 get lowest and highest elements
-        elif instrument_name == "INSTRUMENT3":
+        # INSTRUMENT3 get lowest and highest elements, at the end we can calculate mean
+        elif instrument_name == 'INSTRUMENT3':
             if instrument_name not in instruments_data.keys():
                 instruments_data[instrument_name] = {'lowest': None, 'highest': value}
             else:
@@ -61,9 +61,11 @@ def calculate_statistics(file):
                     del instruments_data[instrument_name][oldest]
                     instruments_data[instrument_name].update({date_object: value})
 
+    # Apply final calculations related to each instrument
     for k, v in instruments_data.items():
-        if k in ['INSTRUMENT1', 'INSTRUMENT2']:
+        if k in ['INSTRUMENT1', 'INSTRUMENT2', 'INSTRUMENT3']:
             results[k] = instruments_data[k]['sum']/instruments_data[k]['total']
         else:
             results[k] = sum(instruments_data[k].values())
+            
     return results
